@@ -1,7 +1,10 @@
 build/
 .gradle/
-local.properties
 .idea/
+local.properties
+*.apk
 .DS_Store
 *.iml
 .kotlin/
+tmp/
+.claude/

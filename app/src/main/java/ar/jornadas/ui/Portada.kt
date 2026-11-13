@@ -16,7 +16,9 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 fun Portada(model: ProgramaModel) {
     var seccion by rememberSaveable { mutableStateOf("Programa") }
     var detalle by rememberSaveable { mutableStateOf<String?>(null) }
-    val charlas by model.charlas.collectAsStateWithLifecycle()
+    val charlas = model.charlas.collectAsStateWithLifecycle().value.orEmpty()
+    val aviso by model.aviso.collectAsStateWithLifecycle()
+    val descargada by model.descargada.collectAsStateWithLifecycle()
     BackHandler(detalle != null || seccion != "Programa") {
         if (detalle != null) detalle = null else seccion = "Programa"
     }
@@ -33,6 +35,7 @@ fun Portada(model: ProgramaModel) {
                 verticalArrangement = Arrangement.spacedBy(8.dp)) {
                 Spacer(Modifier.height(8.dp))
                 Text("Jornadas del Sur", style = MaterialTheme.typography.labelLarge)
+                if (aviso.isNotEmpty() && descargada == true) Text("$aviso: se están usando los datos guardados")
                 if (detalle != null) {
                     TextButton(onClick = { detalle = null }) { Text("Volver") }
                     val ficha = charlas.find { it.id == detalle }
